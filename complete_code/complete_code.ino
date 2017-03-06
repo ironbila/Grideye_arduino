@@ -535,7 +535,7 @@ void loop() {
   Serial.print(det4);
   Serial.println();
 
-  char *h1,*h2,*h3,*h4;
+  char h1[6],h2[6],h3[6],h4[6];
 
   strcpy(h1, booltostring(det1));
   strcpy(h2, booltostring(det2));
