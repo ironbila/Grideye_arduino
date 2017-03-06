@@ -44,7 +44,7 @@ int      init_measure_bool=0;
 
 // Local Network Settings
 char ssid[] = "mineee";  // your network SSID (name)
-char password[] = "warcraft28";    // your network password
+char password[] = "not_my_password";    // your network password
 int keyIndex = 0;             // your network key Index number (needed only for WEP)
 int status = WL_IDLE_STATUS;
 
