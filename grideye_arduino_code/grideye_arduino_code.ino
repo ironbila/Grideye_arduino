@@ -253,8 +253,8 @@ void loop()
       human_detected=1;
   }
 
-  Serial.println(human_detected);
-  Serial.println();
+  //Serial.println(human_detected);
+  //Serial.println();
 
  /* Serial.println("max_av");
   Serial.println(max_av);
@@ -274,5 +274,5 @@ void loop()
   /* set update frequency */
   GE_UpdateFerquency(GE_UpdateFreGet());
 
-  delay( 110 );
+  delay( 1000 );
 }
