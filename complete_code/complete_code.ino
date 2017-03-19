@@ -41,6 +41,7 @@ double thermistor=0;
 grideye  GE_GridEyeSensor;
 short    g_ashRawTemp[64];          /* temperature of 64 pixels      */
 int      init_measure_bool=0;
+double   last_t=0.0;
 
 // Local Network Settings
 char ssid[] = "mineee";  // your network SSID (name)
@@ -475,12 +476,48 @@ const char* booltostring(int x) {
   return x ? "true" : "false";
 }
 
+double getInitTemp() {
+  double x1 = t_area1.av_t_max;
+  double x2 = t_area2.av_t_max;
+  double x3 = t_area3.av_t_max;
+  double x4 = t_area4.av_t_max;
+  return (x1+x2+x3+x4)/4;
+}
+
+double getCurrentTemperature() {
+  int count=0;
+  double t_temp=0.0;
+  if(t_area1.human_ct=0) {
+    t_temp = t_temp + (t_area1.curr_t);
+    count++;
+  }
+  if(t_area2.human_ct=0) {
+    t_temp = t_temp + (t_area2.curr_t);
+    count++;
+  }
+  if(t_area3.human_ct=0) {
+    t_temp = t_temp + (t_area3.curr_t);
+    count++;
+  }
+  if(t_area4.human_ct=0) {
+    t_temp = t_temp + (t_area4.curr_t);
+    count++;
+  }
+
+  if(count>0) {
+    last_t = t_temp/count;
+  }
+  t_temp = last_t;
+  return t_temp;
+}
+
 void loop() {
   
   if(!init_measure_bool) {
     Serial.println("init measure started");
     init_measure();
     init_measure_bool=1;
+    last_t = getInitTemp();
     Serial.println("init measure finished");
   }
 
@@ -513,6 +550,8 @@ void loop() {
   compute_human_detection(&t_area3);
   compute_human_detection(&t_area4);
 
+  last_t = getCurrentTemperature();
+
   int det1 = t_area1.human_detected;
   int det2 = t_area2.human_detected;
   int det3 = t_area3.human_detected;
@@ -534,6 +573,8 @@ void loop() {
   Serial.print("  ");
   Serial.print(det4);
   Serial.println();
+  Serial.print("current TTT is:  ");
+  Serial.println(last_t);
 
   char h1[6],h2[6],h3[6],h4[6];
 
@@ -542,7 +583,7 @@ void loop() {
   strcpy(h3, booltostring(det3));
   strcpy(h4, booltostring(det4));
 
-  sprintf(posts1, POSTS1, thermistor, ambient_light);
+  sprintf(posts1, POSTS1, last_t, ambient_light);
   sprintf(posts2, POSTS2, h2,h1,h4,h3);
 
   Serial.println(h1);
