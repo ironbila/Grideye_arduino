@@ -45,7 +45,7 @@ double   last_t=0.0;
 
 // Local Network Settings
 char ssid[] = "mineee";  // your network SSID (name)
-char password[] = "not_my_password";    // your network password
+char password[] = "warcraft28";    // your network password
 int keyIndex = 0;             // your network key Index number (needed only for WEP)
 int status = WL_IDLE_STATUS;
 
@@ -487,19 +487,19 @@ double getInitTemp() {
 double getCurrentTemperature() {
   int count=0;
   double t_temp=0.0;
-  if(t_area1.human_ct=0) {
+  if(t_area1.human_ct==0) {
     t_temp = t_temp + (t_area1.curr_t);
     count++;
   }
-  if(t_area2.human_ct=0) {
+  if(t_area2.human_ct==0) {
     t_temp = t_temp + (t_area2.curr_t);
     count++;
   }
-  if(t_area3.human_ct=0) {
+  if(t_area3.human_ct==0) {
     t_temp = t_temp + (t_area3.curr_t);
     count++;
   }
-  if(t_area4.human_ct=0) {
+  if(t_area4.human_ct==0) {
     t_temp = t_temp + (t_area4.curr_t);
     count++;
   }
