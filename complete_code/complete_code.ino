@@ -12,6 +12,7 @@
 #define POSTS1 "{\"temperature\": %f,\"luminosity\": %d,\"seats\": "
 #define POSTS2 "{\"1\": %s,\"2\": %s,\"3\": %s,\"4\": %s}}"
 #define HUMAN_CAP 14
+#define POSTIME 5
 
 struct t_area_s {
   double t_min;
@@ -52,7 +53,7 @@ int status = WL_IDLE_STATUS;
 // Variable Setup
 long lastConnectionTime = 0;
 boolean lastConnected = false;
-const int updateThingSpeakInterval = 20 * 1000; // 20 second interval at which to update ThingSpeak
+const int updateThingSpeakInterval = POSTIME * 1000; // 20 second interval at which to update ThingSpeak
 /*
 void init_area(t_area myarea) {
   myarea.t_min=100.1;
@@ -451,9 +452,9 @@ void set_curr_t(t_area* myarea, double area[4][4]) {
 void compute_human_detection(t_area* myarea) {
   if(myarea->human_detected) {
     if(myarea->curr_t < myarea->av_t_max)
-      myarea->human_ct--;
+      myarea->human_ct -= 2;
     else
-      myarea->human_ct += 2;
+      myarea->human_ct++;
     if(myarea->human_ct>HUMAN_CAP)
       myarea->human_ct=HUMAN_CAP;
     if(myarea->human_ct<0)
@@ -464,7 +465,7 @@ void compute_human_detection(t_area* myarea) {
     if(myarea->curr_t > myarea->av_t_max)
       myarea->human_ct++;
     else
-      myarea->human_ct -= 2;
+      myarea->human_ct -= 3;
     if(myarea->human_ct<0)
       myarea->human_ct=0;
     if(myarea->human_ct> HUMAN_CAP)
